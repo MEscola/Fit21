@@ -1,10 +1,13 @@
 package com.desafio.fit21.controller;
 
 
+import java.util.HashMap;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.desafio.fit21.model.User;
+import com.desafio.fit21.security.JwtUtil;
 import com.desafio.fit21.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,8 @@ public class UsuarioController {
 
     private final UserService userService;
     
+    private final JwtUtil jwtUtil;
+    
 
 
     //CADASTRO USUÁRIO
@@ -26,12 +31,13 @@ public class UsuarioController {
     }
 
 
-    //LOGIN
+    
+    // LOGIN -> retorna JWT + usuarioId + nome
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody User usuario) {
+    public ResponseEntity<?> login(@RequestBody User usuario) {
         return userService.login(usuario.getEmail(), usuario.getSenha())
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.status(401).build());
+                .orElse(ResponseEntity.status(401).body("Credenciais inválidas"));
     }
     
     // Atualizar perfil

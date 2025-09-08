@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.desafio.fit21.model.User;
 
 public interface UsuarioRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmailAndSenha(String email, String senha);
+    //Optional<User> findByEmailAndSenha(String email, String senha);
+    Optional<User> findByEmail(String email);
 
     //Optional<User> findById(Long id);
 }

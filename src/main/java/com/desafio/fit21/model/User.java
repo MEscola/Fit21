@@ -23,7 +23,7 @@ public class User {
     private String nome;
     private Integer idade;
     private String email;
-    private String senha; //todo: encrypt
+    private String senha; //todo: hash / bcrypt
     private Double peso;
     private Double altura;
     private String metaTreino; // hipertrofia, emagrecimento
