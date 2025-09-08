@@ -15,9 +15,9 @@ public class Progress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long UserId;
+    private Long id;
     private int dayNumber;
-    private boolean completed= false;
+    private boolean completed = false;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")

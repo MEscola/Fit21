@@ -18,19 +18,19 @@ public class ProgressService {
 
     private final ProgressRepository progressRepository;
     private final UsuarioRepository usuarioRepository;
-        
+
     // Se não existir 21 dias, criar automaticamente
 
-    public List<Progress> getProgress(Long userId) {
-        List<Progress> progresso = progressRepository.findByUserId(userId);
+    public List<Progress> getProgress(Long id) {
+        List<Progress> progresso = progressRepository.findByid(id);
 
-        if(progresso.size() < 21) {
+        if (progresso.size() < 21) {
             List<Integer> diasExistentes = new ArrayList<>();
             progresso.forEach(p -> diasExistentes.add(p.getDayNumber()));
-            for(int i = 1; i <= 21; i++) {
-                if(!diasExistentes.contains(i)) {
+            for (int i = 1; i <= 21; i++) {
+                if (!diasExistentes.contains(i)) {
                     Progress novoDia = new Progress();
-                    novoDia.setUserId(userId);
+                    novoDia.setId(id);
                     novoDia.setDayNumber(i);
                     novoDia.setCompleted(false);
                     progresso.add(progressRepository.save(novoDia));
@@ -40,26 +40,26 @@ public class ProgressService {
 
         return progresso;
     }
-    
-    public Progress markDay(Long userId, int day) {
-        Progress progress = progressRepository.findByUserIdAndDayNumber(userId, day);
 
-        if(progress == null) {
+    public Progress markDay(Long id, int day) {
+        Progress progress = progressRepository.findByidAndDayNumber(id, day);
+
+        if (progress == null) {
             // Criar se não existir
             progress = new Progress();
-            progress.setUserId(userId);
+            progress.setId(id);
             progress.setDayNumber(day);
         }
 
         progress.setCompleted(true);
 
         User user = progress.getUsuario();
-        if(user == null) {
-            user = usuarioRepository.findById(userId).orElseThrow(() -> new RuntimeException("Usuário nao encontrado"));
+        if (user == null) {
+            user = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário nao encontrado"));
             progress.setUsuario(user);
         }
 
-        user.setPontuacao(user.getPontuacao() + 10); //10 pontos por dia concluido;
+        user.setPontuacao(user.getPontuacao() + 10); // 10 pontos por dia concluido;
         progressRepository.save(progress);
         return progress;
 

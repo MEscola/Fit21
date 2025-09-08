@@ -15,19 +15,19 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/progress")
 public class ProgressController {
 
-    
     private final ProgressService progressService;
 
-    // Retorna todos os dias de progresso do usuário (cria registros se não existirem)
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<Progress>> getProgress(@PathVariable Long userId) {
-        List<Progress> progresso = progressService.getProgress(userId);
+    // Retorna todos os dias de progresso do usuário (cria registros se não
+    // existirem)
+    @GetMapping("/{id}")
+    public ResponseEntity<List<Progress>> getProgress(@PathVariable Long id) {
+        List<Progress> progresso = progressService.getProgress(id);
         return ResponseEntity.ok(progresso);
     }
 
     // Marca um dia como concluído
-    @PostMapping("/{userId}/mark/{day}")
-    public ResponseEntity<Progress> markDay(@PathVariable Long userId, @PathVariable int day) {
-        return ResponseEntity.ok(progressService.markDay(userId, day));
+    @PostMapping("/{id}/mark/{day}")
+    public ResponseEntity<Progress> markDay(@PathVariable Long id, @PathVariable int day) {
+        return ResponseEntity.ok(progressService.markDay(id, day));
     }
 }
